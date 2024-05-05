@@ -1,54 +1,26 @@
-import React from 'react';
-import styles from './YourBotArmy.css'; 
+import React from 'react'
 
-function YourBotArmy({ favouriteBots, setFavouriteBots }) {
-  function dischargeBot(event) {
-    const botId = parseInt(event.target.id);
-    const dischargeArray = favouriteBots.filter((fav) => fav.id !== botId);
-    setFavouriteBots(dischargeArray);
-  }
-
-  function deleteBot(botToDelete) {
-    const deleteArray = favouriteBots.filter((fav) => botToDelete.id !== fav.id);
-    console.log(botToDelete.id);
-    deleteMethod(botToDelete).then(() => {
-      setFavouriteBots(deleteArray);
-    });
-  }
-
-  function deleteMethod(bot) {
-    const url = `https://bot-data-1lv2.onrender.com/bots/${bot.id}`;
-    const method = {
-      method: 'DELETE',
-    };
-    return fetch(url, method).then((data) => data);
-  }
-
-  const favouriteList = favouriteBots.map((fav) => (
-    <div className={`${styles.card} col-3 bg-info`} key={fav.id}>
-      <img src={fav.avatar_url} className="card-img-top" alt="Loading..." />
-      <div className="card-body">
-        <h3 className="card-title">{fav.name}</h3>
-        <p className="card-text">{fav.catchphrase}</p>
-        <h4>
-          &#128147;{fav.health} &#128737;{fav.armor} &#9889;{fav.damage}
-        </h4>
-        <button onClick={dischargeBot} className="btn btn-success" id={fav.id}>
-          Demote
-        </button>
-        <button onClick={() => deleteBot(fav)} className="btn btn-danger">
-          X
-        </button>
-      </div>
-    </div>
-  ));
-
+function YourBotArmy({enlistedBots, releaseBot, dischargeBot }) {
+  // if (!Array.isArray(enlistedBots) || enlistedBots.length === 0) {
+  //   return <div className='bg-purple-500'>Your Bot Army is empty</div>;
+  // }
   return (
-    <div className={`col-12 border border-primary ${styles.bgWarning}`}>
-      <h2 className="text-center">Your Bot Army</h2>
-      <div className="row">{favouriteList}</div>
+    <div className='bg-purple-500 flex flex-wrap flex-row'>
+      <h2 className='text-4xl'>Your Bot Army</h2>
+      {enlistedBots.map((bot) => (
+        <div key={bot.id} className='p-[10px]' onClick={() => releaseBot(bot)}>
+          <img src={bot.avatar_url} alt="Bot" />
+          <h2 className='font-bold'>Name: {bot.name}</h2>
+          <p>Catchphrase: {bot.catchphrase}</p>
+          <h3>Class: {bot.bot_class}</h3>
+          <p className='font-medium'>
+            Health: {bot.health} Damage: {bot.damage}
+          </p>
+          <button className='bg-red-600 w-24 rounded-md' onClick={() => dischargeBot(bot)}>X</button>
+        </div>
+      ))}
     </div>
-  );
+  )
 }
 
-export default YourBotArmy;
+export default YourBotArmy
