@@ -1,29 +1,25 @@
-// src/components/BotCollection.js
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react'
 
-const BotCollection = () => {
-  const [bots, setBots] = useState([]);
-
-  useEffect(() => {
-    const fetchBots = async () => {
-      const response = await axios.get('../db.json');
-      setBots(response.data);
-    };
-
-    fetchBots();
-  }, []);
-
+function BotCollection({ bots, enlistBot, enlistedBot, showBotSpecs }) {
+  const handleEnlist = (bot) => {
+    enlistBot(bot)
+  }
   return (
-    <div>
-      {bots.map(bot => (
-        <div key={bot.id}>
-          <h3>{bot.name}</h3>
-          {/* Add other bot details here */}
+    <div className='flex flex-wrap flex-row bg-slate-900 text-white' >
+      {Object.values(bots).map((bot) => (
+        <div key={bot.key} className='p-[10px]' onClick={() => showBotSpecs(bot)}>
+          <img src={bot.avatar_url} alt="bot" />
+          <h2 className='font-bold text-lg'>Name: {bot.name}</h2>
+          <p>Catchphrase: {bot.catchphrase}</p>
+          <h3>Class: {bot.bot_class}</h3>
+          <p className='font-medium'>
+            Health: {bot.health} Damage: {bot.damage} Armour: {bot.armour}
+          </p>
         </div>
       ))}
     </div>
-  );
-};
 
-export default BotCollection;
+  )
+}
+
+export default BotCollection
