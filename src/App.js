@@ -11,7 +11,7 @@ function App() {
   const [selectedBot, setSelectedBot] = useState(null)
   
   useEffect (() => {
-      fetch ('../public/db.json')
+      fetch ('http://localhost:3000/')
       .then((resp) => {
         if (!resp.ok) {
           throw new Error('Error fetching data');
@@ -42,7 +42,7 @@ function App() {
     const updatedEnlistedBots = enlistedBots.filter((enlistedBot) => enlistedBot.id !== bot.id);
     setEnlistedBots(updatedEnlistedBots);
 
-    fetch(`../public/db.json${bot.id}`, {
+    fetch(`http://localhost:3000/${bot.id}`, {
       method: "DELETE",
       header: {
         "Content-Type" : "application/json"
