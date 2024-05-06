@@ -11,7 +11,7 @@ function App() {
   const [selectedBot, setSelectedBot] = useState(null)
   
   useEffect (() => {
-      fetch ('http://localhost:3000/')
+      fetch ('https://bot-api-5aah.onrender.com/bots')
       .then((resp) => {
         if (!resp.ok) {
           throw new Error('Error fetching data');
@@ -42,7 +42,7 @@ function App() {
     const updatedEnlistedBots = enlistedBots.filter((enlistedBot) => enlistedBot.id !== bot.id);
     setEnlistedBots(updatedEnlistedBots);
 
-    fetch(`http://localhost:3000/${bot.id}`, {
+    fetch(`https://bot-api-5aah.onrender.com/bots/${bot.id}`, {
       method: "DELETE",
       header: {
         "Content-Type" : "application/json"
